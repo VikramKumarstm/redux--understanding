@@ -5,7 +5,7 @@ const initialState = {
     anotherNumber: 0
 }
 
-function numberReducer(incomingObject=initialState.number, action) {
+function numberReducer(incomingObject=initialState, action) {
     if(action.type === 'ADD') {
 
         const numberToAdd = action.payload;
@@ -31,38 +31,42 @@ function numberReducer(incomingObject=initialState.number, action) {
     }
 }
 
-function anotherNumberReducer(incomingObject=initialState.anotherNumber, action) {
-    if(action.type === 'INCREMENT') {
-        // we don't need payload for increment // action: {type: 'INCREMENT', payload: null}
+// function anotherNumberReducer(incomingObject=initialState.anotherNumber, action) {
+//     if(action.type === 'INCREMENT') {
+//         // we don't need payload for increment // action: {type: 'INCREMENT', payload: null}
 
-        return {
-            ...incomingObject,
-            anotherNumber: incomingObject.anotherNumber + 1
-        }
+//         return {
+//             ...incomingObject,
+//             anotherNumber: incomingObject.anotherNumber + 1
+//         }
 
-    } else if(action.type === 'DECREMENT') {
-        // we don't need payload for decrement
+//     } else if(action.type === 'DECREMENT') {
+//         // we don't need payload for decrement
 
-        return {
-            ...incomingObject,
-            anotherNumber: incomingObject.anotherNumber - 1
-        }
+//         return {
+//             ...incomingObject,
+//             anotherNumber: incomingObject.anotherNumber - 1
+//         }
 
-    } else {
-        return incomingObject
-    }
-}
+//     } else {
+//         return incomingObject
+//     }
+// }
 
-const rootReducer = combineReducers({
-    number: numberReducer,
-    anotherNumber: anotherNumberReducer
+// const rootReducer = combineReducers({
+//     number: numberReducer,
+//     anotherNumber: anotherNumberReducer
+// })
+
+const store = createStore(numberReducer)
+
+store.subscribe(() => {
+    console.log("Store has been updated", store.getState())
 })
-
-const store = createStore(rootReducer)
 
 console.log(store) //{number : 0}
 console.log(store.getState()); //{number : 0}
 
 store.dispatch({type: 'ADD', payload: 17}) // dispatch takes an action
-store.dispatch({type: 'INCREMENT', payload: null})
+// store.dispatch({type: 'INCREMENT', payload: null})
 console.log(store.getState()) // {number: 17}
